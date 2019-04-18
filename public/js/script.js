@@ -16,8 +16,11 @@
             }).addTo(map);
 
             blueData.stand.forEach(function(s) {
+                s.name = s.name ? decodeURI(s.name.replace(/\+/g, ' ')) : 'NA';
+                s.wcom = s.wcom ? decodeURI(s.wcom.replace(/\+/g, ' ')) : '';
+                var msg = s.disp === '0' || s.neutral === '1' ? "<h5>" + s.name + "</h5><p>Station indisponible / en travaux</p>" : "<h5>" + s.name + "</h5><p>" + s.wcom + "</p>Available bikes: " + s.ab + "<br/>Available stands: " + s.ap;
                 L.marker([s.lat, s.lng]).addTo(map)
-                    .bindPopup("<h5>" + s.wcom + "</h5><br/>Available bikes: " + s.ab + "<br/>Available stands: " + s.ap);
+                    .bindPopup(msg);
             });
 
             function onLocationFound(e) {
